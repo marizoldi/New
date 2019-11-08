@@ -138,9 +138,6 @@ while 1:
             del enemies[e]
             e -= 1
 
-        if enemies[e].x > 780:
-            enemies[e].dx = -enemies[e].dx
-
         if fighter.hit_by(enemies[e]):
             if lives > 1:
                 del enemies[e]
