@@ -7,7 +7,7 @@ pygame.init()
 pygame.display.set_caption("Space Invaders")
 clock = pygame.time.Clock()
 
-background = pygame.image.load('background.gif')
+background = pygame.image.load('background.jpg')
 
 # This function will create a display Surface
 screen = pygame.display.set_mode(background.get_size())
@@ -34,6 +34,7 @@ class Enemies:
     def move(self):
         self.y += 2
         self.x += self.dx
+
 
     def bounce(self):
         if self.x < 0 or self.x > 775:
@@ -133,9 +134,12 @@ while 1:
         enemies[e].draw()
         enemies[e].bounce()
 
-        # if enemies[e].y > 400:
-        # 	del enemies[e]
-        # 	e -= 1
+        if enemies[e].y > 400:
+            del enemies[e]
+            e -= 1
+
+        if enemies[e].x > 780:
+            enemies[e].dx = -enemies[e].dx
 
         if fighter.hit_by(enemies[e]):
             if lives > 1:
