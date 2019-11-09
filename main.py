@@ -16,6 +16,7 @@ spaceship = pygame.image.load("spaceship.png").convert_alpha()
 enemy_image1 = pygame.image.load("invader.png").convert_alpha()
 enemy_image = pygame.transform.scale(enemy_image1, (35, 35))
 
+
 last_time_enemy_spawned = 0
 time_since_last_shot = 0
 BLACK = (0, 0, 0)
@@ -61,7 +62,7 @@ class Fighter(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = img1
+        self.image = spaceship
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
         self.rect.centerx = SCREEN_WIDTH / 2
@@ -99,17 +100,18 @@ class Fighter(pygame.sprite.Sprite):
         return pygame.Rect(self.x, self.y, 50, 50).collidepoint(enemy.x, enemy.y + 20)
 
 
-class Missile:
+class Missile(pygame.sprite.Sprite):
 
     def __init__(self, x):
-        self.x = x
-        self.y = 350
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.draw.line(screen, (255, 0, 0), (self.x, self.y), (self.x, self.y - 4), 1)
+        self.rect.x = x
+        self.rect.y = y
+        self.yspeed = -5
 
-    def draw(self):
-        pygame.draw.line(screen, (255, 0, 0), (self.x, self.y), (self.x, self.y - 4), 1)
+    def update(self):
+        self.rect.y += self.yspeed
 
-    def move(self):
-        self.y -= 10
 
 
 fighter = Fighter()
