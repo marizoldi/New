@@ -24,21 +24,31 @@ score = 0
 lives = 4
 
 
-class Enemies:
+class Enemies(pygame.sprite.Sprite):
 
     def __init__(self):
-        self.x = random.randint(0, 800)
-        self.y = -40
+        pygame.sprite.Sprite.__init__(self)
+        self.image = enemy_image
+        self.rect = self.image.get_rect()
+        self.rect.x = random.randint(0, 800)
+        self.rect.y = 0
+        self.yspeed = random.randint(1, 2)
+        self.xspeed = random.randint(-2, 2)
         self.dx = 1
 
-    def move(self):
-        self.y += 2
-        self.x += self.dx
+    def update(self):
+        self.rect.y += self.yspeed
+        self.rect.x += self.xspeed
 
+        if self.rect.top > SCREEN_HEIGHT:
+            self.rect.x = random.randint(0, 800)
+            self.rect.y = 0
+            self.yspeed = random.randint(1, 2)
+            self.xspeed = random.randint(-2, 2)
 
-    def bounce(self):
-        if self.x < 0 or self.x > 775:
-            self.dx = -1
+        if self.rect.right > 800 or self.rect.left < 0:
+            self.xspeed *= -1
+
 
     def draw(self):
         screen.blit(enemy_image, (self.x, self.y))
@@ -47,16 +57,34 @@ class Enemies:
         return pygame.Rect(self.x, self.y, 35, 35).collidepoint((missile.x, missile.y))
 
 
-class Fighter:
+class Fighter(pygame.sprite.Sprite):
 
     def __init__(self):
-        self.x = 400
-        self.y = 330
+        pygame.sprite.Sprite.__init__(self)
+        self.image = img1
+        self.mask = pygame.mask.from_surface(self.image)
+        self.rect = self.image.get_rect()
+        self.rect.centerx = SCREEN_WIDTH / 2
+        self.rect.bottom = SCREEN_HEIGHT - self.rect.y - 2
+        self.speedx = 3
         self.lives = 5
         self.angle = 0
 
-    def draw(self):
-        screen.blit(spaceship, (self.x, self.y))
+    def update(self):
+        self.speedx = 0
+        keystate = pygame.key.get_pressed()
+
+        if keystate[K_LEFT]:
+            self.speedx = -5
+        if keystate[K_RIGHT]:
+            self.speedx = 5
+
+        self.rect.x += self.speedx
+
+        if self.rect.right > SCREEN_WIDTH:
+            self.rect.right = SCREEN_WIDTH
+        if self.rect.left < 0:
+            self.rect.left = 0
 
     def fire(self):
         missiles.append(Missile(self.x + spaceship.get_width() / 2))
@@ -84,10 +112,18 @@ class Missile:
         self.y -= 10
 
 
-enemies = []
-missiles = []
-
 fighter = Fighter()
+
+
+all_sprites_list = pygame.sprite.Group()
+enemies = pygame.sprite.Group()
+bullets = pygame.sprite.Group()
+all_sprites_list.add(player)
+
+for i in range(6):
+    e = Enemies()
+    enemies.add(e)
+    all_sprites_list.add(e)
 
 while 1:
 
