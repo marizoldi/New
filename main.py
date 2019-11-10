@@ -16,13 +16,16 @@ spaceship = pygame.image.load("spaceship.png").convert_alpha()
 enemy_image1 = pygame.image.load("invader.png").convert_alpha()
 enemy_image = pygame.transform.scale(enemy_image1, (35, 35))
 
-
 last_time_enemy_spawned = 0
 time_since_last_shot = 0
 BLACK = (0, 0, 0)
 
 score = 0
 lives = 4
+
+w,h = background.get_size()
+y = 0
+y1 = h
 
 
 class Enemies(pygame.sprite.Sprite):
@@ -82,38 +85,48 @@ class Fighter(pygame.sprite.Sprite):
             self.rect.left = 0
 
     def fire(self):
-        b = Bullet(self.rect.centerx, self.rect.top)
-        bullets.add(b)
-        all_sprites_list.add(b)
+        missiles.append(Missile(self.rect.centerx, self.rect.top))
 
     # def hit_by(self, enemy):
     #     return pygame.Rect(self.x, self.y, 50, 50).collidepoint(enemy.x, enemy.y + 20)
 
 
-class Missile(pygame.sprite.Sprite):
+class Missile:
 
-    def __init__(self, x,y):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.draw.line(screen, (255, 0, 0), (self.x, self.y), (self.x, self.y - 4), 1)
-        self.rect.x = x
-        self.rect.y = y
-        self.yspeed = -5
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
-    def update(self):
-        self.rect.y += self.yspeed
+    def draw(self):
+        pygame.draw.line(screen, (255,0,0), (self.x, self.y), (self.x, self.y - 4), 3)
+
+    def move(self):
+        self.y -= 10
+
+
+def rollingBackgrd():
+    global y,y1,h
+    screen.blit(background,(0,y))
+    screen.blit(background,(0,y1))
+    y += 1
+    y1 += 1
+
+    if y > h:
+        y = -h
+    if y1 > h:
+        y1 = -h
 
 
 
 fighter = Fighter()
 
-
 all_sprites_list = pygame.sprite.Group()
 enemies = pygame.sprite.Group()
-missiles = pygame.sprite.Group()
+missiles = []
 all_sprites_list.add(fighter)
 
-
 gameOn = True
+
 
 while gameOn:
 
@@ -130,8 +143,6 @@ while gameOn:
     if pressed_keys[K_ESCAPE]:
         sys.exit()
 
-
-
     if time.time() - last_time_enemy_spawned > 0.8:
         enemies.add(Enemies())
         # all_sprites_list.add(e)
@@ -141,18 +152,26 @@ while gameOn:
         fighter.fire()
         time_since_last_shot = time.time()
 
+
     all_sprites_list.update()
     enemies.update()
-    missiles.update()
 
     # RENDER PROCESS
     screen.fill(BLACK)
+    rollingBackgrd()
+
+    m = 0
+    while m < len(missiles):
+        missiles[m].draw()
+        missiles[m].move()
+
+        if missiles[m].y < -4:
+            del missiles[m]
+            m -= 1
+
+        m += 1
+
     all_sprites_list.draw(screen)
-
-    ######## rollingBackgrd()
-
-
-
 
     pygame.display.flip()
 
