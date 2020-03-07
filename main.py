@@ -94,16 +94,19 @@ class Invader(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        # self.yspeed = 1
         self.xspeed = 1
-        self.last_update = pygame.time.get_ticks()
+        # self.yspeed = 0
+        # self.last_update = pygame.time.get_ticks()
 
     def update(self):
-        # self.rect.y += self.yspeed
         self.rect.x += self.xspeed
 
-        if self.last_update - pygame.time.get_ticks() > 70:
-            self.last_update = pygame.time.get_ticks()
+        if moveDown:
+            self.rect.y += 5
+            print("I am")
+
+        # if self.last_update - pygame.time.get_ticks() > 70:
+        #   self.last_update = pygame.time.get_ticks()
 
         # if self.rect.top > SCREEN_HEIGHT:
         #   self.rect.x = random.randint(0,800)
@@ -205,6 +208,7 @@ for i in range(40,160,33):
 
 gameOn = True
 reverse = False
+moveDown = False
 
 ## MAIN LOOP
 while gameOn:
@@ -243,18 +247,23 @@ while gameOn:
                 invaders.add(e)
                 all_sprites_list.add(e)
 
+    screen.fill(BLACK)
+
     hits = pygame.sprite.groupcollide(invaders, bullets, True, True)
 
     for inv in invaders:
         if inv.rect.right > SCREEN_WIDTH or inv.rect.left < 0:
             reverse = True
-            # print("reversed")
+            
 
     if reverse:
-        print("here")
         for i in invaders:
             i.xspeed *= -1
         reverse = False
+        moveDown = True
+        invaders.update()
+
+    moveDown = False
 
     
     invaders.update()
@@ -264,7 +273,7 @@ while gameOn:
         ex = Explosions(hit.rect.center)
         all_sprites_list.add(ex)
     
-    screen.fill(BLACK)
+    
     rollingBackgrd()
     # screen.blit(font.render("Lives: " + str(player.lives), True, (0,255,255)), (5,5))
          
