@@ -11,12 +11,12 @@ pygame.init()
 # COLOURS
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-BLUE = (50, 50, 255)
+GREEN = (0, 255, 0)
  
 # Screen dimensions
-SCREEN_WIDTH = 640
-SCREEN_HEIGHT = 400
-FPS = 70
+SCREEN_WIDTH = 740
+SCREEN_HEIGHT = 800
+FPS = 30
 
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 pygame.display.set_caption("Space Invaders with Sprites!")
@@ -24,17 +24,18 @@ clock = pygame.time.Clock()
 font = pygame.font.SysFont('exo2',20)
 
 # Loading images and converting where appropriate
-img1 = pygame.image.load("fighter.png")
+img1 = pygame.image.load("Assets/ship.png")
 img1.set_colorkey((255,255,255))
-img2 = pygame.image.load("invader.png").convert_alpha()
-img3 = pygame.image.load("missile.png").convert_alpha()
-background = pygame.image.load("background.jpg").convert()
+img2 = pygame.image.load("Assets/enemy2_1.png").convert_alpha()
+background = pygame.image.load("Assets/background.jpg").convert()
+background2 = pygame.image.load("Assets/sidpt2.png").convert()
+background2.set_colorkey((0,0,0))
 
 explosions = []
 
 # Load images in a list for explosion animation
 for i in range(9):
-    filename = 'regularExplosion0{}.png'.format(i)
+    filename = 'Assets/regularExplosion0{}.png'.format(i)
     explosion_image = pygame.image.load(filename).convert()
     explosion_image.set_colorkey(BLACK)
     exp_img = pygame.transform.scale(explosion_image, (32,32))
@@ -45,6 +46,7 @@ w,h = background.get_size()
 y = 0
 y1 = -h
 
+last_missile_spawned = 0
 
 ## CLASS DECLERATIONS ##
 
@@ -56,7 +58,7 @@ class Player(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
         self.rect.centerx = SCREEN_WIDTH / 2
-        self.rect.bottom = SCREEN_HEIGHT - self.rect.y - 2
+        self.rect.bottom = SCREEN_HEIGHT - self.rect.y - 100
         self.speedx = 3
         self.lives = 2
 
@@ -71,15 +73,15 @@ class Player(pygame.sprite.Sprite):
 
         self.rect.x += self.speedx
 
-        if self.rect.right > SCREEN_WIDTH:
-            self.rect.right = SCREEN_WIDTH
-        if self.rect.left < 0:
-            self.rect.left = 0
+        if self.rect.right > 500:
+            self.rect.right = 500
+        if self.rect.left < 200:
+            self.rect.left = 200
 
 
     def shoot(self):
-        b = Bullet(self.rect.centerx - 11, self.rect.top)
-        bullets.add(b)
+        b = Missile(self.rect.centerx - 11, self.rect.top, -5)
+        fighterMissiles.add(b)
         all_sprites_list.add(b)
 
 
@@ -95,37 +97,34 @@ class Invader(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         self.xspeed = 1
-        # self.yspeed = 0
-        # self.last_update = pygame.time.get_ticks()
+        self.timer = pygame.time.get_ticks()
+        
+
+    def shoot(self):
+        b = Missile(self.rect.centerx - 10, self.rect.bottom - 22, 2)
+        invaderMissiles.add(b)
+        all_sprites_list.add(b)
+                
 
     def update(self):
         self.rect.x += self.xspeed
 
         if moveDown:
             self.rect.y += 5
-            print("I am")
-
-        # if self.last_update - pygame.time.get_ticks() > 70:
-        #   self.last_update = pygame.time.get_ticks()
-
-        # if self.rect.top > SCREEN_HEIGHT:
-        #   self.rect.x = random.randint(0,800)
-        #   self.rect.y = 0
-        #   self.yspeed = random.randint(1,2)
-        #   self.xspeed = random.randint(-2,2)
 
 
-class Bullet(pygame.sprite.Sprite):
+class Missile(pygame.sprite.Sprite):
 
-    def __init__(self,x,y):
+    def __init__(self,x,y,yDir):
 
         pygame.sprite.Sprite.__init__(self)
-        self.image = img3
-        self.mask = pygame.mask.from_surface(self.image)
+        self.image = pygame.Surface([4, 6])
+        self.image.fill(GREEN)
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.yspeed = -5
+        self.yspeed = yDir
+        # pygame.draw.line(self.image, (255,0,0), (0, 0), (4, 6), 4)
 
     def update(self):
         self.rect.y += self.yspeed
@@ -171,7 +170,7 @@ def show_restart_screen():
         screen.fill(BLACK)
         clock.tick(FPS)
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == K_ESC:
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == K_ESCAPE:
                 pygame.quit()
             if event.type == pygame.KEYUP:   
                 waiting = False
@@ -196,15 +195,19 @@ player = Player()
 
 all_sprites_list = pygame.sprite.Group()
 invaders = pygame.sprite.Group()
-bullets = pygame.sprite.Group()
+fighterMissiles = pygame.sprite.Group()
+invaderMissiles = pygame.sprite.Group()
 all_sprites_list.add(player)
 
-# Creating the invaders
-for i in range(40,160,33):
-    for j in range(100,500,50):
-        e = Invader(j, i)
-        invaders.add(e)
-        all_sprites_list.add(e)
+def spawnInvaders():
+    # Creating the invaders
+    for i in range(240,360,40):
+        for j in range(100,500,50):
+            e = Invader(j, i)
+            invaders.add(e)
+            all_sprites_list.add(e)
+
+spawnInvaders()
 
 gameOn = True
 reverse = False
@@ -213,6 +216,7 @@ moveDown = False
 ## MAIN LOOP
 while gameOn:
 
+
     clock.tick(FPS)
     
     for event in pygame.event.get():
@@ -220,42 +224,52 @@ while gameOn:
             gameOn = False
         elif event.type == pygame.KEYDOWN and event.key == K_SPACE:
                 player.shoot()
-        # elif event.type == ADDENEMY:
-        #   addEnemy()
     
 
     all_sprites_list.update()   
     
-    if pygame.sprite.spritecollide(player, invaders, True, pygame.sprite.collide_mask):
+    if pygame.sprite.spritecollide(player, invaders, True, pygame.sprite.collide_mask) or \
+    pygame.sprite.spritecollide(player,invaderMissiles, True, pygame.sprite.collide_mask):
         if player.lives <= 3 and player.lives > 1:
             player.lives -= 1
-            addInvader()
+             
         else:
             screen.fill(BLACK)
-            # screen.blit(font.render("Lives: " + "0", True, (0,255,255)), (5,5))
+            screen.blit(font.render("Lives: " + "0", True, (0,255,0)), (10,5))
             pygame.display.flip()
 
             show_restart_screen()
+            player.lives = 4
             all_sprites_list = pygame.sprite.Group()
             invaders = pygame.sprite.Group()
-            bullets = pygame.sprite.Group()
+            fighterMissiles = pygame.sprite.Group()
+            invaderMissiles = pygame.sprite.Group()
             player = Player()
             all_sprites_list.add(player)
 
-            for i in range(6):
-                e = Invader()
-                invaders.add(e)
-                all_sprites_list.add(e)
+            spawnInvaders()
 
     screen.fill(BLACK)
 
-    hits = pygame.sprite.groupcollide(invaders, bullets, True, True)
+    hits = pygame.sprite.groupcollide(invaders, fighterMissiles, True, True)
+    hitsMissile = pygame.sprite.groupcollide(fighterMissiles, invaderMissiles, True, True)
 
     for inv in invaders:
-        if inv.rect.right > SCREEN_WIDTH or inv.rect.left < 0:
-            reverse = True
-            
 
+        if inv.rect.right > 650 or inv.rect.left < 100:
+            reverse = True  
+
+    if len(invaders.sprites()) != 0:
+        if pygame.time.get_ticks() - last_missile_spawned > 1200:
+            random.choice(invaders.sprites()).shoot()
+            last_missile_spawned = pygame.time.get_ticks()
+
+        if pygame.time.get_ticks() - last_missile_spawned > 700:
+            random.choice(invaders.sprites()).shoot()
+            last_missile_spawned = pygame.time.get_ticks()
+
+
+    # Check for collision with window screen on both sides
     if reverse:
         for i in invaders:
             i.xspeed *= -1
@@ -263,9 +277,9 @@ while gameOn:
         moveDown = True
         invaders.update()
 
+
     moveDown = False
 
-    
     invaders.update()
          
 
@@ -273,19 +287,15 @@ while gameOn:
         ex = Explosions(hit.rect.center)
         all_sprites_list.add(ex)
     
-    
+    all_sprites_list.update()   
+
     rollingBackgrd()
-    # screen.blit(font.render("Lives: " + str(player.lives), True, (0,255,255)), (5,5))
+    screen.blit(background2, (0,0))
+    screen.blit(font.render("Lives: " + str(player.lives), True, (0,255,0)), (10,5))
          
     all_sprites_list.draw(screen)
 
     pygame.display.flip()
-
-
-
-
-
-
 
 
 
