@@ -50,12 +50,12 @@ for i in range(1,3):
     enemy1.append(enemy_image)
 # Load enemy 2 in a list for  animation
 for i in range(1,3):
-    filename = 'Assets/enemy1_{}.png'.format(i)
+    filename = 'Assets/enemy2_{}.png'.format(i)
     enemy_image = pygame.image.load(filename).convert_alpha()
     enemy2.append(enemy_image)
 # Load enemy 3 in a list for  animation
 for i in range(1,3):
-    filename = 'Assets/enemy1_{}.png'.format(i)
+    filename = 'Assets/enemy3_{}.png'.format(i)
     enemy_image = pygame.image.load(filename).convert_alpha()
     enemy3.append(enemy_image)
 
@@ -77,7 +77,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = SCREEN_WIDTH / 2
         self.rect.bottom = SCREEN_HEIGHT - self.rect.y - 100
         self.speedx = 3
-        self.lives = 2
+        self.lives = 4
 
     def update(self):
         self.speedx = 0
@@ -100,7 +100,6 @@ class Player(pygame.sprite.Sprite):
         b = Missile(self.rect.centerx - 11, self.rect.top, -5)
         fighterMissiles.add(b)
         all_sprites_list.add(b)
-
 
 
 class Invader(pygame.sprite.Sprite):
@@ -187,7 +186,6 @@ class Explosions(pygame.sprite.Sprite):
                 self.rect = self.image.get_rect()
                 self.rect.center = old_center
                 self.current_frame = 0
-                
 
 
 def show_restart_screen():
@@ -222,16 +220,34 @@ def rollingBackgrd():
 player = Player()
 
 all_sprites_list = pygame.sprite.Group()
+invaders10 = pygame.sprite.Group()
+invaders20 = pygame.sprite.Group()
+invaders30 = pygame.sprite.Group()
 invaders = pygame.sprite.Group()
 fighterMissiles = pygame.sprite.Group()
 invaderMissiles = pygame.sprite.Group()
 all_sprites_list.add(player)
 
 def spawnInvaders():
-    # Creating the invaders
-    for i in range(240,360,40):
+    # Creating the 30 point invaders
+    for i in range(240,320,40):
         for j in range(100,500,50):
             e = Invader(j, i, enemy1)
+            invaders30.add(e)
+            invaders.add(e)
+            all_sprites_list.add(e)
+    # Creating the 20 point invaders
+    for i in range(320,400,40):
+        for j in range(100,500,50):
+            e = Invader(j, i, enemy2)
+            invaders20.add(e)
+            invaders.add(e)
+            all_sprites_list.add(e)
+    # Creating the 10 point invaders
+    for i in range(400,480,40):
+        for j in range(100,500,50):
+            e = Invader(j, i, enemy3)
+            invaders10.add(e)
             invaders.add(e)
             all_sprites_list.add(e)
 
@@ -240,10 +256,10 @@ spawnInvaders()
 gameOn = True
 reverse = False
 moveDown = False
+score = 0
 
 ## MAIN LOOP
 while gameOn:
-
 
     clock.tick(FPS)
 
@@ -252,16 +268,14 @@ while gameOn:
             gameOn = False
         elif event.type == pygame.KEYDOWN and event.key == K_SPACE:
                 player.shoot()
-    
 
     all_sprites_list.update()
-    invaders.update()
-    
+
     if pygame.sprite.spritecollide(player, invaders, True, pygame.sprite.collide_mask) or \
-    pygame.sprite.spritecollide(player,invaderMissiles, True, pygame.sprite.collide_mask):
+    pygame.sprite.spritecollide(player, invaderMissiles, True, pygame.sprite.collide_mask):
         if player.lives <= 3 and player.lives > 1:
             player.lives -= 1
-             
+        # Game Over and restart screen
         else:
             screen.fill(BLACK)
             screen.blit(font.render("Lives: " + "0", True, (0,255,0)), (10,5))
@@ -278,13 +292,9 @@ while gameOn:
 
             spawnInvaders()
 
-    screen.fill(BLACK)
 
-    hits = pygame.sprite.groupcollide(invaders, fighterMissiles, True, True)
-    hitsMissile = pygame.sprite.groupcollide(fighterMissiles, invaderMissiles, True, True)
 
     for inv in invaders:
-
         if inv.rect.right > 650 or inv.rect.left < 100:
             reverse = True  
 
@@ -297,7 +307,6 @@ while gameOn:
             random.choice(invaders.sprites()).shoot()
             last_missile_spawned = pygame.time.get_ticks()
 
-
     # Check for collision with window screen on both sides
     if reverse:
         for i in invaders:
@@ -307,17 +316,28 @@ while gameOn:
         invaders.update()
         moveDown = False
         reverse = False
-         
 
-    for hit in hits:
+    if pygame.sprite.groupcollide(invaders10, fighterMissiles, True, True):
+        score += 10
+    if pygame.sprite.groupcollide(invaders20, fighterMissiles, True, True):
+        score += 20
+    if pygame.sprite.groupcollide(invaders30, fighterMissiles, True, True):
+        score += 30
+
+    hitsMissile = pygame.sprite.groupcollide(fighterMissiles, invaderMissiles, True, True)
+
+
+    for hit in pygame.sprite.groupcollide(invaders, fighterMissiles, True, True):
         ex = Explosions(hit.rect.center)
         all_sprites_list.add(ex)
-    
-    all_sprites_list.update()   
+
+    # RENDERING PROCESS
+    screen.fill(BLACK)
 
     rollingBackgrd()
     screen.blit(background2, (0,0))
     screen.blit(font.render("Lives: " + str(player.lives), True, (0,255,0)), (10,5))
+    screen.blit(font.render("Score: " + str(score), True, (0, 255, 0)), (10, 15))
          
     all_sprites_list.draw(screen)
 

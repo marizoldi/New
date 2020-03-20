@@ -3,36 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="a607f91d-4dd0-4fe2-bbf1-eeba30f03c63" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/enemy1_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/enemy1_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/enemy2_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/enemy2_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/enemy2_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/enemy2_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/enemy3_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/enemy3_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/enemy3_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/enemy3_2.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="137" column="79" selection-start-line="137" selection-start-column="79" selection-end-line="137" selection-end-column="79" />
-              <folding>
-                <element signature="e#1917#2786#0" />
-                <element signature="e#3796#4242#0" />
-                <element signature="e#4290#5051#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -42,54 +18,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/main.py" />
-      </list>
-    </option>
-  </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="823" />
   </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Space-Invaders" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Space-Invaders" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+  <component name="ProjectId" id="1ZOgiD3no5C7LMl31uToD8rwCm0" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -179,7 +123,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573405277154</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Added sprite animation">
+      <created>1584715382524</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1584715382524</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView">
@@ -191,49 +142,31 @@
       <is-autoscroll-to-source value="true" />
     </todo-panel>
   </component>
-  <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="823" extended-state="0" />
-    <editor active="true" />
-    <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12896407" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.1751026" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32968536" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32968536" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.28864568" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.1874145" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout>
-  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added images" />
     <MESSAGE value="Added bouncing" />
     <MESSAGE value="Added deletion when disappear on the ground" />
     <MESSAGE value="Convert to Sprites" />
     <MESSAGE value="Added rolling background and fire functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added rolling background and fire functionality" />
+    <MESSAGE value="Added sprite animation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added sprite animation" />
   </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="137" column="79" selection-start-line="137" selection-start-column="79" selection-end-line="137" selection-end-column="79" />
-          <folding>
-            <element signature="e#1917#2786#0" />
-            <element signature="e#3796#4242#0" />
-            <element signature="e#4290#5051#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+  <component name="WindowStateProjectService">
+    <state width="1379" height="92" key="GridCell.Tab.0.bottom" timestamp="1584742287436">
+      <screen x="0" y="23" width="1440" height="823" />
+    </state>
+    <state width="1379" height="92" key="GridCell.Tab.0.bottom/0.23.1440.823@0.23.1440.823" timestamp="1584742287436" />
+    <state width="1379" height="92" key="GridCell.Tab.0.center" timestamp="1584742287435">
+      <screen x="0" y="23" width="1440" height="823" />
+    </state>
+    <state width="1379" height="92" key="GridCell.Tab.0.center/0.23.1440.823@0.23.1440.823" timestamp="1584742287435" />
+    <state width="1379" height="92" key="GridCell.Tab.0.left" timestamp="1584742287434">
+      <screen x="0" y="23" width="1440" height="823" />
+    </state>
+    <state width="1379" height="92" key="GridCell.Tab.0.left/0.23.1440.823@0.23.1440.823" timestamp="1584742287434" />
+    <state width="1379" height="92" key="GridCell.Tab.0.right" timestamp="1584742287435">
+      <screen x="0" y="23" width="1440" height="823" />
+    </state>
+    <state width="1379" height="92" key="GridCell.Tab.0.right/0.23.1440.823@0.23.1440.823" timestamp="1584742287435" />
   </component>
 </project>
