@@ -10,11 +10,6 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>moveDown</find>
-    </findStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -30,6 +25,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -130,7 +126,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584715382524</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Added different invaders and score">
+      <created>1584742306630</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1584742306630</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView">
@@ -149,24 +152,33 @@
     <MESSAGE value="Convert to Sprites" />
     <MESSAGE value="Added rolling background and fire functionality" />
     <MESSAGE value="Added sprite animation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added sprite animation" />
+    <MESSAGE value="Added different invaders and score" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added different invaders and score" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1379" height="92" key="GridCell.Tab.0.bottom" timestamp="1584742287436">
+    <state x="353" y="35" key="CommitChangelistDialog2" timestamp="1584742306247">
       <screen x="0" y="23" width="1440" height="823" />
     </state>
-    <state width="1379" height="92" key="GridCell.Tab.0.bottom/0.23.1440.823@0.23.1440.823" timestamp="1584742287436" />
-    <state width="1379" height="92" key="GridCell.Tab.0.center" timestamp="1584742287435">
+    <state x="353" y="35" key="CommitChangelistDialog2/0.23.1440.823@0.23.1440.823" timestamp="1584742306247" />
+    <state width="1379" height="92" key="GridCell.Tab.0.bottom" timestamp="1584744568089">
       <screen x="0" y="23" width="1440" height="823" />
     </state>
-    <state width="1379" height="92" key="GridCell.Tab.0.center/0.23.1440.823@0.23.1440.823" timestamp="1584742287435" />
-    <state width="1379" height="92" key="GridCell.Tab.0.left" timestamp="1584742287434">
+    <state width="1379" height="92" key="GridCell.Tab.0.bottom/0.23.1440.823@0.23.1440.823" timestamp="1584744568089" />
+    <state width="1379" height="92" key="GridCell.Tab.0.center" timestamp="1584744568088">
       <screen x="0" y="23" width="1440" height="823" />
     </state>
-    <state width="1379" height="92" key="GridCell.Tab.0.left/0.23.1440.823@0.23.1440.823" timestamp="1584742287434" />
-    <state width="1379" height="92" key="GridCell.Tab.0.right" timestamp="1584742287435">
+    <state width="1379" height="92" key="GridCell.Tab.0.center/0.23.1440.823@0.23.1440.823" timestamp="1584744568088" />
+    <state width="1379" height="92" key="GridCell.Tab.0.left" timestamp="1584744568087">
       <screen x="0" y="23" width="1440" height="823" />
     </state>
-    <state width="1379" height="92" key="GridCell.Tab.0.right/0.23.1440.823@0.23.1440.823" timestamp="1584742287435" />
+    <state width="1379" height="92" key="GridCell.Tab.0.left/0.23.1440.823@0.23.1440.823" timestamp="1584744568087" />
+    <state width="1379" height="92" key="GridCell.Tab.0.right" timestamp="1584744568088">
+      <screen x="0" y="23" width="1440" height="823" />
+    </state>
+    <state width="1379" height="92" key="GridCell.Tab.0.right/0.23.1440.823@0.23.1440.823" timestamp="1584744568088" />
+    <state x="320" y="174" key="Vcs.Push.Dialog.v2" timestamp="1584742317000">
+      <screen x="0" y="23" width="1440" height="823" />
+    </state>
+    <state x="320" y="174" key="Vcs.Push.Dialog.v2/0.23.1440.823@0.23.1440.823" timestamp="1584742317000" />
   </component>
 </project>
