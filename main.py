@@ -26,11 +26,13 @@ font = pygame.font.SysFont('exo2',20)
 # Loading images and converting where appropriate
 img1 = pygame.image.load("Assets/ship.png")
 img1.set_colorkey((255,255,255))
-img2 = pygame.image.load("Assets/enemy2_1.png").convert_alpha()
 background = pygame.image.load("Assets/background.jpg").convert()
 background2 = pygame.image.load("Assets/sidpt2.png").convert()
 background2.set_colorkey((0,0,0))
 
+enemy1 = []
+enemy2 = []
+enemy3 = []
 explosions = []
 
 # Load images in a list for explosion animation
@@ -41,6 +43,21 @@ for i in range(9):
     exp_img = pygame.transform.scale(explosion_image, (32,32))
     explosions.append(exp_img)
 
+# Load enemy 1 in a list for  animation
+for i in range(1,3):
+    filename = 'Assets/enemy1_{}.png'.format(i)
+    enemy_image = pygame.image.load(filename).convert_alpha()
+    enemy1.append(enemy_image)
+# Load enemy 2 in a list for  animation
+for i in range(1,3):
+    filename = 'Assets/enemy1_{}.png'.format(i)
+    enemy_image = pygame.image.load(filename).convert_alpha()
+    enemy2.append(enemy_image)
+# Load enemy 3 in a list for  animation
+for i in range(1,3):
+    filename = 'Assets/enemy1_{}.png'.format(i)
+    enemy_image = pygame.image.load(filename).convert_alpha()
+    enemy3.append(enemy_image)
 
 w,h = background.get_size()
 y = 0
@@ -73,8 +90,8 @@ class Player(pygame.sprite.Sprite):
 
         self.rect.x += self.speedx
 
-        if self.rect.right > 500:
-            self.rect.right = 500
+        if self.rect.right > 600:
+            self.rect.right = 600
         if self.rect.left < 200:
             self.rect.left = 200
 
@@ -88,17 +105,19 @@ class Player(pygame.sprite.Sprite):
 
 class Invader(pygame.sprite.Sprite):
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, invIm):
         pygame.sprite.Sprite.__init__(self)
-        self.image = img2
-        self.image2 = img2
+        self.image = invIm[0]
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
         self.xspeed = 1
-        self.timer = pygame.time.get_ticks()
-        
+        self.invIm = invIm
+        self.pose = 0
+        self.current_frame = 0
+        self.last_time = time.time()
+
 
     def shoot(self):
         b = Missile(self.rect.centerx - 10, self.rect.bottom - 22, 2)
@@ -111,6 +130,15 @@ class Invader(pygame.sprite.Sprite):
 
         if moveDown:
             self.rect.y += 5
+        # Animating sprites. Only two frames so can implement it this way
+        if self.current_frame == 0 and time.time() - self.last_time > FPS/100:
+            self.current_frame = 1
+            self.last_time = time.time()
+            self.image = self.invIm[self.current_frame]
+        elif self.current_frame == 1 and time.time() - self.last_time > FPS/100:
+            self.current_frame = 0
+            self.last_time = time.time()
+            self.image = self.invIm[self.current_frame]
 
 
 class Missile(pygame.sprite.Sprite):
@@ -203,7 +231,7 @@ def spawnInvaders():
     # Creating the invaders
     for i in range(240,360,40):
         for j in range(100,500,50):
-            e = Invader(j, i)
+            e = Invader(j, i, enemy1)
             invaders.add(e)
             all_sprites_list.add(e)
 
@@ -218,7 +246,7 @@ while gameOn:
 
 
     clock.tick(FPS)
-    
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == K_ESCAPE:
             gameOn = False
@@ -226,7 +254,8 @@ while gameOn:
                 player.shoot()
     
 
-    all_sprites_list.update()   
+    all_sprites_list.update()
+    invaders.update()
     
     if pygame.sprite.spritecollide(player, invaders, True, pygame.sprite.collide_mask) or \
     pygame.sprite.spritecollide(player,invaderMissiles, True, pygame.sprite.collide_mask):
@@ -273,14 +302,11 @@ while gameOn:
     if reverse:
         for i in invaders:
             i.xspeed *= -1
-        reverse = False
-        moveDown = True
+            moveDown = True
+
         invaders.update()
-
-
-    moveDown = False
-
-    invaders.update()
+        moveDown = False
+        reverse = False
          
 
     for hit in hits:
