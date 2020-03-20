@@ -133,7 +133,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584742306630</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Changed missile speed, corrected reload screen, changes fonts">
+      <created>1584744599416</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1584744599416</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TodoView">
@@ -153,32 +160,33 @@
     <MESSAGE value="Added rolling background and fire functionality" />
     <MESSAGE value="Added sprite animation" />
     <MESSAGE value="Added different invaders and score" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added different invaders and score" />
+    <MESSAGE value="Changed missile speed, corrected reload screen, changes fonts" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed missile speed, corrected reload screen, changes fonts" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="353" y="35" key="CommitChangelistDialog2" timestamp="1584742306247">
+    <state x="353" y="35" key="CommitChangelistDialog2" timestamp="1584744599123">
       <screen x="0" y="23" width="1440" height="823" />
     </state>
-    <state x="353" y="35" key="CommitChangelistDialog2/0.23.1440.823@0.23.1440.823" timestamp="1584742306247" />
-    <state width="1379" height="92" key="GridCell.Tab.0.bottom" timestamp="1584744568089">
+    <state x="353" y="35" key="CommitChangelistDialog2/0.23.1440.823@0.23.1440.823" timestamp="1584744599123" />
+    <state width="1379" height="92" key="GridCell.Tab.0.bottom" timestamp="1584745911774">
       <screen x="0" y="23" width="1440" height="823" />
     </state>
-    <state width="1379" height="92" key="GridCell.Tab.0.bottom/0.23.1440.823@0.23.1440.823" timestamp="1584744568089" />
-    <state width="1379" height="92" key="GridCell.Tab.0.center" timestamp="1584744568088">
+    <state width="1379" height="92" key="GridCell.Tab.0.bottom/0.23.1440.823@0.23.1440.823" timestamp="1584745911774" />
+    <state width="1379" height="92" key="GridCell.Tab.0.center" timestamp="1584745911773">
       <screen x="0" y="23" width="1440" height="823" />
     </state>
-    <state width="1379" height="92" key="GridCell.Tab.0.center/0.23.1440.823@0.23.1440.823" timestamp="1584744568088" />
-    <state width="1379" height="92" key="GridCell.Tab.0.left" timestamp="1584744568087">
+    <state width="1379" height="92" key="GridCell.Tab.0.center/0.23.1440.823@0.23.1440.823" timestamp="1584745911773" />
+    <state width="1379" height="92" key="GridCell.Tab.0.left" timestamp="1584745911772">
       <screen x="0" y="23" width="1440" height="823" />
     </state>
-    <state width="1379" height="92" key="GridCell.Tab.0.left/0.23.1440.823@0.23.1440.823" timestamp="1584744568087" />
-    <state width="1379" height="92" key="GridCell.Tab.0.right" timestamp="1584744568088">
+    <state width="1379" height="92" key="GridCell.Tab.0.left/0.23.1440.823@0.23.1440.823" timestamp="1584745911772" />
+    <state width="1379" height="92" key="GridCell.Tab.0.right" timestamp="1584745911774">
       <screen x="0" y="23" width="1440" height="823" />
     </state>
-    <state width="1379" height="92" key="GridCell.Tab.0.right/0.23.1440.823@0.23.1440.823" timestamp="1584744568088" />
-    <state x="320" y="174" key="Vcs.Push.Dialog.v2" timestamp="1584742317000">
+    <state width="1379" height="92" key="GridCell.Tab.0.right/0.23.1440.823@0.23.1440.823" timestamp="1584745911774" />
+    <state x="320" y="174" key="Vcs.Push.Dialog.v2" timestamp="1584744608876">
       <screen x="0" y="23" width="1440" height="823" />
     </state>
-    <state x="320" y="174" key="Vcs.Push.Dialog.v2/0.23.1440.823@0.23.1440.823" timestamp="1584742317000" />
+    <state x="320" y="174" key="Vcs.Push.Dialog.v2/0.23.1440.823@0.23.1440.823" timestamp="1584744608876" />
   </component>
 </project>

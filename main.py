@@ -65,6 +65,7 @@ y = 0
 y1 = -h
 
 last_missile_spawned = 0
+level = 1
 
 ## CLASS DECLERATIONS ##
 
@@ -127,7 +128,12 @@ class Invader(pygame.sprite.Sprite):
         self.rect.x += self.xspeed
 
         if moveDown:
-            self.rect.y += 5
+            if level == 1:
+                self.rect.y += 5
+            elif level == 2:
+                self.rect.y += 25
+            elif level == 3:
+                self.rect.y += 35
         # Animating sprites. Only two frames so can implement it this way
         if self.current_frame == 0 and time.time() - self.last_time > FPS/100:
             self.current_frame = 1
@@ -190,6 +196,8 @@ class Explosions(pygame.sprite.Sprite):
 def show_restart_screen():
 
     waiting = True
+    score = 0
+    player.lives = 4
     screen.fill(BLACK)
     screen.blit(fontS.render("Game Over", True, (0, 255, 0)), (100, 250))
     screen.blit(fontS.render("Press Enter to restart", True, (0, 235, 0)), (100, 300))
@@ -216,18 +224,19 @@ def rollingBackgrd():
         y1 = -h
 
 
-## INSTANTIATIONS / GLOBAL VARIABLES 
+## INSTANTIATIONS / GLOBAL VARIABLES
 
-player = Player()
 
 all_sprites_list = pygame.sprite.Group()
-invaders10 = pygame.sprite.Group()
-invaders20 = pygame.sprite.Group()
-invaders30 = pygame.sprite.Group()
 invaders = pygame.sprite.Group()
 fighterMissiles = pygame.sprite.Group()
 invaderMissiles = pygame.sprite.Group()
+invaders10 = pygame.sprite.Group()
+invaders20 = pygame.sprite.Group()
+invaders30 = pygame.sprite.Group()
+player = Player()
 all_sprites_list.add(player)
+
 
 def spawnInvaders():
     # Creating the 30 point invaders
@@ -268,21 +277,16 @@ while gameOn:
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == K_ESCAPE:
             gameOn = False
         elif event.type == pygame.KEYDOWN and event.key == K_SPACE:
-                player.shoot()
+            player.shoot()
 
     all_sprites_list.update()
 
     if pygame.sprite.spritecollide(player, invaders, True) or pygame.sprite.spritecollide(player, invaderMissiles, True):
-        if player.lives <= 4 and player.lives > 1:
+        if 4 >= player.lives > 1:
             player.lives -= 1
         # Game Over and restart screen
         else:
             show_restart_screen()
-            player.lives = 4
-            score = 0
-            gameOn = True
-            reverse = False
-            moveDown = False
             all_sprites_list = pygame.sprite.Group()
             invaders = pygame.sprite.Group()
             fighterMissiles = pygame.sprite.Group()
@@ -292,9 +296,9 @@ while gameOn:
             invaders30 = pygame.sprite.Group()
             player = Player()
             all_sprites_list.add(player)
-
+            score = 0
+            player.lives = 4
             spawnInvaders()
-
 
     for inv in invaders:
         if inv.rect.right > 650 or inv.rect.left < 100:
@@ -308,6 +312,17 @@ while gameOn:
         if pygame.time.get_ticks() - last_missile_spawned > 700:
             random.choice(invaders.sprites()).shoot()
             last_missile_spawned = pygame.time.get_ticks()
+
+    else:
+        level += 1
+        all_sprites_list = pygame.sprite.Group()
+        invaders = pygame.sprite.Group()
+        invaders10 = pygame.sprite.Group()
+        invaders20 = pygame.sprite.Group()
+        invaders30 = pygame.sprite.Group()
+        all_sprites_list.add(player)
+        print(level)
+        spawnInvaders()
 
     # Check for collision with window screen on both sides
     if reverse:
@@ -328,7 +343,6 @@ while gameOn:
 
     hitsMissile = pygame.sprite.groupcollide(fighterMissiles, invaderMissiles, True, True)
 
-
     for hit in pygame.sprite.groupcollide(invaders, fighterMissiles, True, True):
         ex = Explosions(hit.rect.center)
         all_sprites_list.add(ex)
@@ -337,8 +351,8 @@ while gameOn:
     screen.fill(BLACK)
 
     rollingBackgrd()
-    screen.blit(background2, (0,0))
-    screen.blit(fontS.render("Lives: " + str(player.lives), True, (0,255,0)), (12,5))
+    screen.blit(background2, (0, 0))
+    screen.blit(fontS.render("Lives: " + str(player.lives), True, (0, 255, 0)), (12, 5))
     screen.blit(fontS.render("Score: " + str(score), True, (0, 255, 0)), (12, 35))
 
     all_sprites_list.draw(screen)
