@@ -3,16 +3,16 @@
 import pygame, random, time, sys
 from pygame.locals import *
 
-        # PYGAME SETUP AND INITIALISATION
+# PYGAME SETUP AND INITIALISATION
 pygame.init()
 
 # -- Global constants
- 
+
 # COLOURS
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
- 
+
 # Screen dimensions
 SCREEN_WIDTH = 740
 SCREEN_HEIGHT = 800
@@ -21,15 +21,16 @@ FPS = 30
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 pygame.display.set_caption("Space Invaders with Sprites!")
 clock = pygame.time.Clock()
-fontS = pygame.font.SysFont('spaceinvaders',30)
+fontS = pygame.font.SysFont('spaceinvaders', 30)
 # fontM = pygame.font.SysFont('itcmachinestd',20)
 
 # Loading images and converting where appropriate
 img1 = pygame.image.load("Assets/ship.png")
-img1.set_colorkey((255,255,255))
+img1.set_colorkey((255, 255, 255))
 background = pygame.image.load("Assets/background.jpg").convert()
 background2 = pygame.image.load("Assets/sidpt2.png").convert()
-background2.set_colorkey((0,0,0))
+background2.set_colorkey((0, 0, 0))
+startScreen = pygame.image.load("Assets/startScreen.jpg").convert()
 
 enemy1 = []
 enemy2 = []
@@ -41,31 +42,25 @@ for i in range(9):
     filename = 'Assets/regularExplosion0{}.png'.format(i)
     explosion_image = pygame.image.load(filename).convert()
     explosion_image.set_colorkey(BLACK)
-    exp_img = pygame.transform.scale(explosion_image, (32,32))
+    exp_img = pygame.transform.scale(explosion_image, (32, 32))
     explosions.append(exp_img)
 
 # Load enemy 1 in a list for  animation
-for i in range(1,3):
+for i in range(1, 3):
     filename = 'Assets/enemy1_{}.png'.format(i)
     enemy_image = pygame.image.load(filename).convert_alpha()
     enemy1.append(enemy_image)
 # Load enemy 2 in a list for  animation
-for i in range(1,3):
+for i in range(1, 3):
     filename = 'Assets/enemy2_{}.png'.format(i)
     enemy_image = pygame.image.load(filename).convert_alpha()
     enemy2.append(enemy_image)
 # Load enemy 3 in a list for  animation
-for i in range(1,3):
+for i in range(1, 3):
     filename = 'Assets/enemy3_{}.png'.format(i)
     enemy_image = pygame.image.load(filename).convert_alpha()
     enemy3.append(enemy_image)
 
-w,h = background.get_size()
-y = 0
-y1 = -h
-
-last_missile_spawned = 0
-level = 1
 
 ## CLASS DECLERATIONS ##
 
@@ -96,7 +91,6 @@ class Player(pygame.sprite.Sprite):
         if self.rect.left < 200:
             self.rect.left = 200
 
-
     def shoot(self):
         b = Missile(self.rect.centerx - 11, self.rect.top, -5)
         fighterMissiles.add(b)
@@ -117,12 +111,10 @@ class Invader(pygame.sprite.Sprite):
         self.current_frame = 0
         self.last_time = time.time()
 
-
     def shoot(self):
         b = Missile(self.rect.centerx - 10, self.rect.bottom - 22, 8)
         invaderMissiles.add(b)
         all_sprites_list.add(b)
-                
 
     def update(self):
         self.rect.x += self.xspeed
@@ -135,11 +127,11 @@ class Invader(pygame.sprite.Sprite):
             elif level == 3:
                 self.rect.y += 35
         # Animating sprites. Only two frames so can implement it this way
-        if self.current_frame == 0 and time.time() - self.last_time > FPS/100:
+        if self.current_frame == 0 and time.time() - self.last_time > FPS / 100:
             self.current_frame = 1
             self.last_time = time.time()
             self.image = self.invIm[self.current_frame]
-        elif self.current_frame == 1 and time.time() - self.last_time > FPS/100:
+        elif self.current_frame == 1 and time.time() - self.last_time > FPS / 100:
             self.current_frame = 0
             self.last_time = time.time()
             self.image = self.invIm[self.current_frame]
@@ -147,8 +139,7 @@ class Invader(pygame.sprite.Sprite):
 
 class Missile(pygame.sprite.Sprite):
 
-    def __init__(self,x,y,yDir):
-
+    def __init__(self, x, y, yDir):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([4, 6])
         self.image.fill(GREEN)
@@ -175,15 +166,14 @@ class Explosions(pygame.sprite.Sprite):
         self.pose = 0
         self.current_frame = 0
         self.frames_between = 3
-         
 
     def update(self):
 
         self.current_frame += 1
-        
-        if self.current_frame >= self.frames_between:  
+
+        if self.current_frame >= self.frames_between:
             old_center = self.rect.center
-            self.pose = self.pose + 1 
+            self.pose = self.pose + 1
             if self.pose == len(explosions) - 1:
                 self.kill()
             else:
@@ -193,40 +183,7 @@ class Explosions(pygame.sprite.Sprite):
                 self.current_frame = 0
 
 
-def show_restart_screen():
-
-    waiting = True
-    score = 0
-    player.lives = 4
-    screen.fill(BLACK)
-    screen.blit(fontS.render("Game Over", True, (0, 255, 0)), (100, 250))
-    screen.blit(fontS.render("Press Enter to restart", True, (0, 235, 0)), (100, 300))
-    pygame.display.update()
-
-    while waiting:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == K_ESCAPE:
-                pygame.quit()
-            if event.type == pygame.KEYUP:   
-                waiting = False
-
-
-def rollingBackgrd():
-    global y,y1,h
-    screen.blit(background,(0,y))
-    screen.blit(background,(0,y1))
-    y += 1
-    y1 += 1
-
-    if y > h:
-        y = -h
-    if y1 > h:
-        y1 = -h
-
-
 ## INSTANTIATIONS / GLOBAL VARIABLES
-
-
 all_sprites_list = pygame.sprite.Group()
 invaders = pygame.sprite.Group()
 fighterMissiles = pygame.sprite.Group()
@@ -237,41 +194,100 @@ invaders30 = pygame.sprite.Group()
 player = Player()
 all_sprites_list.add(player)
 
+w, h = background.get_size()
+y = 0
+y1 = -h
+
+last_missile_spawned = 0
+level = 1
+gameOn = True
+reverse = False
+moveDown = False
+start = True
+restart = False
+won = False
+score = 0
+
+
+def start_screen():
+    global start
+    global restart
+    global won
+    waiting = True
+    print("here")
+
+    screen.fill(BLACK)
+    if start:
+        screen.blit(startScreen, (50, 0))
+        screen.blit(fontS.render("Press Enter to start", True, (0, 235, 0)), (100, 300))
+        start = False
+    if restart:
+        screen.blit(fontS.render("Game Over", True, (0, 255, 0)), (100, 250))
+        screen.blit(fontS.render("Press Enter to restart", True, (0, 235, 0)), (100, 300))
+        restart = False
+    if won:
+        screen.blit(fontS.render("You WON! All Space Invaders destroyed", True, (0, 255, 0)), (100, 250))
+        screen.blit(fontS.render("Press Enter to play again", True, (0, 235, 0)), (100, 300))
+        won = False
+        start = True
+
+    pygame.display.update()
+
+    while waiting:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == K_ESCAPE):
+                sys.exit()
+            if event.type == pygame.KEYDOWN and event.key == K_RETURN:
+                waiting = False
+
+
+def rollingBackgrd():
+    global y, y1, h
+    screen.blit(background, (0, y))
+    screen.blit(background, (0, y1))
+    y += 1
+    y1 += 1
+
+    if y > h:
+        y = -h
+    if y1 > h:
+        y1 = -h
+
 
 def spawnInvaders():
     # Creating the 30 point invaders
-    for i in range(240,320,40):
-        for j in range(100,500,50):
+    for i in range(240, 320, 40):
+        for j in range(100, 500, 50):
             e = Invader(j, i, enemy1)
             invaders30.add(e)
             invaders.add(e)
             all_sprites_list.add(e)
     # Creating the 20 point invaders
-    for i in range(320,400,40):
-        for j in range(100,500,50):
+    for i in range(320, 400, 40):
+        for j in range(100, 500, 50):
             e = Invader(j, i, enemy2)
             invaders20.add(e)
             invaders.add(e)
             all_sprites_list.add(e)
     # Creating the 10 point invaders
-    for i in range(400,480,40):
-        for j in range(100,500,50):
+    for i in range(400, 480, 40):
+        for j in range(100, 500, 50):
             e = Invader(j, i, enemy3)
             invaders10.add(e)
             invaders.add(e)
             all_sprites_list.add(e)
 
-spawnInvaders()
 
-gameOn = True
-reverse = False
-moveDown = False
-score = 0
+spawnInvaders()
 
 ## MAIN LOOP
 while gameOn:
 
     clock.tick(FPS)
+
+    if start:
+        start_screen()
+        print("afer")
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == K_ESCAPE:
@@ -281,12 +297,14 @@ while gameOn:
 
     all_sprites_list.update()
 
-    if pygame.sprite.spritecollide(player, invaders, True) or pygame.sprite.spritecollide(player, invaderMissiles, True):
+    if pygame.sprite.spritecollide(player, invaders, True) or pygame.sprite.spritecollide(player, invaderMissiles,
+                                                                                          True):
         if 4 >= player.lives > 1:
             player.lives -= 1
         # Game Over and restart screen
         else:
-            show_restart_screen()
+            restart = True
+            start_screen()
             all_sprites_list = pygame.sprite.Group()
             invaders = pygame.sprite.Group()
             fighterMissiles = pygame.sprite.Group()
@@ -313,7 +331,7 @@ while gameOn:
             random.choice(invaders.sprites()).shoot()
             last_missile_spawned = pygame.time.get_ticks()
 
-    else:
+    elif level < 2:
         level += 1
         all_sprites_list = pygame.sprite.Group()
         invaders = pygame.sprite.Group()
@@ -321,7 +339,21 @@ while gameOn:
         invaders20 = pygame.sprite.Group()
         invaders30 = pygame.sprite.Group()
         all_sprites_list.add(player)
-        print(level)
+        spawnInvaders()
+    else:
+        won = True
+        start_screen()
+        all_sprites_list = pygame.sprite.Group()
+        invaders = pygame.sprite.Group()
+        fighterMissiles = pygame.sprite.Group()
+        invaderMissiles = pygame.sprite.Group()
+        invaders10 = pygame.sprite.Group()
+        invaders20 = pygame.sprite.Group()
+        invaders30 = pygame.sprite.Group()
+        player = Player()
+        all_sprites_list.add(player)
+        score = 0
+        player.lives = 4
         spawnInvaders()
 
     # Check for collision with window screen on both sides
@@ -358,6 +390,3 @@ while gameOn:
     all_sprites_list.draw(screen)
 
     pygame.display.flip()
-
-
-
