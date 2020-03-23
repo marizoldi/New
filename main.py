@@ -1,9 +1,6 @@
-### Added animation (explosions)
-
 import pygame, random, time, sys
 from pygame.locals import *
 
-# PYGAME SETUP AND INITIALISATION
 pygame.init()
 
 # -- Global constants
@@ -183,7 +180,7 @@ class Explosions(pygame.sprite.Sprite):
                 self.current_frame = 0
 
 
-## INSTANTIATIONS / GLOBAL VARIABLES
+# INSTANTIATIONS / GLOBAL VARIABLES
 all_sprites_list = pygame.sprite.Group()
 invaders = pygame.sprite.Group()
 fighterMissiles = pygame.sprite.Group()
@@ -219,25 +216,28 @@ def start_screen():
     screen.fill(BLACK)
     if start:
         screen.blit(startScreen, (50, 0))
-        screen.blit(fontS.render("Press Enter to start", True, (0, 235, 0)), (100, 300))
+        pygame.draw.rect(screen, (120, 120, 120, 60), (140, 340, 470, 55))
+        pygame.draw.rect(screen, GREEN, (140, 340, 470, 55), 3)
+        screen.blit(fontS.render("Press Enter to start", True, (0, 235, 0)), (170, 350))
         start = False
     if restart:
         screen.blit(fontS.render("Game Over", True, (0, 255, 0)), (100, 250))
         screen.blit(fontS.render("Press Enter to restart", True, (0, 235, 0)), (100, 300))
         restart = False
     if won:
-        screen.blit(fontS.render("You WON! All Space Invaders destroyed", True, (0, 255, 0)), (100, 250))
-        screen.blit(fontS.render("Press Enter to play again", True, (0, 235, 0)), (100, 300))
+        screen.blit(fontS.render("You WON!", True, (0, 255, 0)), (100, 250))
+        screen.blit(fontS.render("All Space Invaders are destroyed", True, (0, 255, 0)), (100, 300))
+        screen.blit(fontS.render("Press Enter to play again", True, (0, 235, 0)), (100, 350))
         won = False
         start = True
 
     pygame.display.update()
 
     while waiting:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == K_ESCAPE):
+        for myevent in pygame.event.get():
+            if myevent.type == pygame.QUIT or (myevent.type == pygame.KEYDOWN and myevent.key == K_ESCAPE):
                 sys.exit()
-            if event.type == pygame.KEYDOWN and event.key == K_RETURN:
+            if myevent.type == pygame.KEYDOWN and myevent.key == K_RETURN:
                 waiting = False
 
 
@@ -287,15 +287,12 @@ while gameOn:
 
     if start:
         start_screen()
-        print("afer")
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == K_ESCAPE:
             gameOn = False
         elif event.type == pygame.KEYDOWN and event.key == K_SPACE:
             player.shoot()
-
-    all_sprites_list.update()
 
     if pygame.sprite.spritecollide(player, invaders, True) or pygame.sprite.spritecollide(player, invaderMissiles,
                                                                                           True):
@@ -365,6 +362,11 @@ while gameOn:
         invaders.update()
         moveDown = False
         reverse = False
+    # Need False, False here as we don't want to delete them before the next if clause
+    hits = pygame.sprite.groupcollide(invaders, fighterMissiles, False, False)
+    for hit in hits:
+        ex = Explosions(hit.rect.center)
+        all_sprites_list.add(ex)
 
     if pygame.sprite.groupcollide(invaders10, fighterMissiles, True, True):
         score += 10
@@ -373,11 +375,9 @@ while gameOn:
     if pygame.sprite.groupcollide(invaders30, fighterMissiles, True, True):
         score += 30
 
-    hitsMissile = pygame.sprite.groupcollide(fighterMissiles, invaderMissiles, True, True)
+    pygame.sprite.groupcollide(fighterMissiles, invaderMissiles, True, True)
 
-    for hit in pygame.sprite.groupcollide(invaders, fighterMissiles, True, True):
-        ex = Explosions(hit.rect.center)
-        all_sprites_list.add(ex)
+    all_sprites_list.update()
 
     # RENDERING PROCESS
     screen.fill(BLACK)
